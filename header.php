@@ -69,11 +69,6 @@
                         )
                     );
                     ?>
-					<a href="#" target="_blank">Demo Nav</a>
-					<a href="#" target="_blank">Demo Nav</a>
-					<a href="#" target="_blank">Demo Nav</a>
-					<a href="#" target="_blank">Demo Nav</a>
-					<a href="#" target="_blank">Demo Nav</a>
 				</div>
 			</div>
 			<div class="container mobile_hide">
@@ -95,7 +90,7 @@
                                 $xplrme_description = get_bloginfo( 'description', 'display' );
                                 if ( $xplrme_description || is_customize_preview() ) :
                                     ?>
-									<p class="site-description"><?php echo $xplrme_description; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
+									<p class="site-description"><?php echo $xplrme_description;?></p>
                                 <?php endif; ?>
 							</div>
 							<div class="category">

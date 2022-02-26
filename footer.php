@@ -47,11 +47,7 @@
 						</ul>
 					</div>
 					<div class="site-info cpoyright text-center">
-						<p>&copy; 2022 XPLRME. All rights reserved</p>
-                        <?php
-                        /* translators: 1: Theme name, 2: Theme author. */
-                        printf( esc_html__( 'Theme: %1$s by %2$s.', 'xplrme' ), 'xplrme', '<a href="http://asaduzzaman.me">Asad</a>' );
-                        ?>
+						<p>&copy; <?php echo date('Y')?> <?php echo bloginfo('title') ?> | <?php echo esc_html__('All rights reserved', 'xplrme') ?></p>
 					</div>
 				</div>
 			</div>
