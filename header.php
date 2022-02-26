@@ -23,37 +23,133 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 <div id="page" class="site">
-	<a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e( 'Skip to content', 'xplrme' ); ?></a>
+	<header class="header site-header">
+		<div class="header_top">
+			<div class="nav">
+				<input type="checkbox" id="nav-check">
+				<div class="nav-header">
+					<div class="nav-title">
+						<div class="logo">
+							<?php
+                            the_custom_logo();
+                            if ( is_front_page() && is_home() ) :
+                                ?>
+								<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+                            <?php
+                            else :
+                                ?>
+								<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
+                            <?php
+                            endif;
+                            $xplrme_description = get_bloginfo( 'description', 'display' );
+                            if ( $xplrme_description || is_customize_preview() ) :
+                                ?>
+								<p class="site-description"><?php echo $xplrme_description; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
+                            <?php endif; ?>
+						</div>
+					</div>
+				</div>
+				<div class="cart">
+					<img src="<?php echo get_template_directory_uri();
+                    ?>/assets/img/add-to-basket.png" alt="">
+				</div>
+				<div class="nav-btn">
+					<label for="nav-check">
+						<span></span>
+						<span></span>
+						<span></span>
+					</label>
+				</div>
+				<div class="nav-links">
+                    <?php
+                    wp_nav_menu(
+                        array(
+                            'theme_location' => 'menu-1',
+                            'menu_id'        => 'primary-menu',
+                        )
+                    );
+                    ?>
+					<a href="#" target="_blank">Demo Nav</a>
+					<a href="#" target="_blank">Demo Nav</a>
+					<a href="#" target="_blank">Demo Nav</a>
+					<a href="#" target="_blank">Demo Nav</a>
+					<a href="#" target="_blank">Demo Nav</a>
+				</div>
+			</div>
+			<div class="container mobile_hide">
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="header_left">
+							<div class="logo">
+								<?php
+                                the_custom_logo();
+                                if ( is_front_page() && is_home() ) :
+                                    ?>
+									<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+                                <?php
+                                else :
+                                    ?>
+									<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
+                                <?php
+                                endif;
+                                $xplrme_description = get_bloginfo( 'description', 'display' );
+                                if ( $xplrme_description || is_customize_preview() ) :
+                                    ?>
+									<p class="site-description"><?php echo $xplrme_description; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
+                                <?php endif; ?>
+							</div>
+							<div class="category">
+                                <?php
+                                wp_nav_menu(
+                                    array(
+                                        'theme_location' => 'menu-1',
+                                        'menu_id'        => 'primary-menu',
+                                    )
+                                );
+                                ?>
+							</div>
+							<div class="search">
+								<a href="#"><i class="fa fa-search"></i></a>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="header_right">
+	                        <?php
+	                        wp_nav_menu(
+	                            array(
+	                                'theme_location' => 'menu-2',
+	                                'menu_id'        => 'right-menu',
+	                            )
+	                        );
+	                        ?>
+							<div class="cart">
+								<img src="<?php echo get_template_directory_uri();
+                                ?>/assets/img/add-to-basket.png" alt="">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-	<header id="masthead" class="site-header">
-		<div class="site-branding">
-			<?php
-			the_custom_logo();
-			if ( is_front_page() && is_home() ) :
-				?>
-				<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-				<?php
-			else :
-				?>
-				<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
-				<?php
-			endif;
-			$xplrme_description = get_bloginfo( 'description', 'display' );
-			if ( $xplrme_description || is_customize_preview() ) :
-				?>
-				<p class="site-description"><?php echo $xplrme_description; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
-			<?php endif; ?>
-		</div><!-- .site-branding -->
-
-		<nav id="site-navigation" class="main-navigation">
-			<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'xplrme' ); ?></button>
-			<?php
-			wp_nav_menu(
-				array(
-					'theme_location' => 'menu-1',
-					'menu_id'        => 'primary-menu',
-				)
-			);
-			?>
-		</nav><!-- #site-navigation -->
-	</header><!-- #masthead -->
+		<div class="hero_section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="banner_text text-right">
+							<h1>Banner Title<br> Goes Here</h1>
+							<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+								Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+							<a href="#">Get Started</a>
+						</div>
+						<div class="for_mobile">
+							<img src="<?php echo get_template_directory_uri();
+                            ?>/assets/img/banner-image.png" alt="">
+							<a href="#">Get Started</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>

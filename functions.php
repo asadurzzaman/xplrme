@@ -50,6 +50,7 @@ function xplrme_setup() {
 	register_nav_menus(
 		array(
 			'menu-1' => esc_html__( 'Primary', 'xplrme' ),
+			'menu-2' => esc_html__( 'Menu Right', 'xplrme' ),
 		)
 	);
 
@@ -121,24 +122,82 @@ add_action( 'after_setup_theme', 'xplrme_content_width', 0 );
  */
 function xplrme_widgets_init() {
 	register_sidebar(
-		array(
-			'name'          => esc_html__( 'Sidebar', 'xplrme' ),
-			'id'            => 'sidebar-1',
-			'description'   => esc_html__( 'Add widgets here.', 'xplrme' ),
-			'before_widget' => '<section id="%1$s" class="widget %2$s">',
-			'after_widget'  => '</section>',
-			'before_title'  => '<h2 class="widget-title">',
-			'after_title'   => '</h2>',
-		)
-	);
+        array(
+            'name'          => esc_html__( 'Sidebar', 'xplrme' ),
+            'id'            => 'sidebar-1',
+            'description'   => esc_html__( 'Add widgets here.', 'xplrme' ),
+            'before_widget' => '<section id="%1$s" class="widget %2$s">',
+            'after_widget'  => '</section>',
+            'before_title'  => '<h2 class="widget-title">',
+            'after_title'   => '</h2>',
+        )
+    );
+    register_sidebar(
+        array(
+            'name'          => esc_html__( 'Blog Page Sidebar', 'xplrme' ),
+            'id'            => 'sidebar-blog',
+            'description'   => esc_html__( 'Add widgets here.', 'xplrme' ),
+            'before_widget' => '<section id="%1$s" class="widget %2$s">',
+            'after_widget'  => '</section>',
+            'before_title'  => '<h2 class="widget-title">',
+            'after_title'   => '</h2>',
+        )
+    );
+    register_sidebar(
+        array(
+            'name'          => esc_html__( 'Footer One', 'xplrme' ),
+            'id'            => 'footer-1',
+            'description'   => esc_html__( 'Add widgets here.', 'xplrme' ),
+            'before_widget' => '<section id="%1$s" class="widget %2$s">',
+            'after_widget'  => '</section>',
+            'before_title'  => '<h2 class="widget-title">',
+            'after_title'   => '</h2>',
+        )
+    );
+    register_sidebar(
+        array(
+            'name'          => esc_html__( 'Footer Two', 'xplrme' ),
+            'id'            => 'footer-2',
+            'description'   => esc_html__( 'Add widgets here.', 'xplrme' ),
+            'before_widget' => '<section id="%1$s" class="widget %2$s">',
+            'after_widget'  => '</section>',
+            'before_title'  => '<h2 class="widget-title">',
+            'after_title'   => '</h2>',
+        )
+    );
+    register_sidebar(
+        array(
+            'name'          => esc_html__( 'Footer Three', 'xplrme' ),
+            'id'            => 'footer-3',
+            'description'   => esc_html__( 'Add widgets here.', 'xplrme' ),
+            'before_widget' => '<section id="%1$s" class="widget %2$s">',
+            'after_widget'  => '</section>',
+            'before_title'  => '<h2 class="widget-title">',
+            'after_title'   => '</h2>',
+        )
+    );
+    register_sidebar(
+        array(
+            'name'          => esc_html__( 'Footer Four', 'xplrme' ),
+            'id'            => 'footer-4',
+            'description'   => esc_html__( 'Add widgets here.', 'xplrme' ),
+            'before_widget' => '<section id="%1$s" class="widget %2$s">',
+            'after_widget'  => '</section>',
+            'before_title'  => '<h2 class="widget-title">',
+            'after_title'   => '</h2>',
+        )
+    );
 }
 add_action( 'widgets_init', 'xplrme_widgets_init' );
+
+
 
 /**
  * Enqueue scripts and styles.
  */
 function xplrme_scripts() {
 
+    wp_enqueue_style('xplrme-google-fonts', xplrme_fonts_url());
 	wp_enqueue_style( 'xplrme-style', get_stylesheet_uri(), array(), _S_VERSION );
 	wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/assets/css/bootstrap.min.css');
 	wp_enqueue_style( 'all-css', get_template_directory_uri() . '/assets/fonts/all.min.css');
@@ -146,14 +205,11 @@ function xplrme_scripts() {
 	wp_enqueue_style( 'slick', get_template_directory_uri() . '/assets/css/slick.css');
 	wp_enqueue_style( 'responsive', get_template_directory_uri() . '/assets/css/responsive.css');
 
-	wp_style_add_data( 'xplrme-style', 'rtl', 'replace' );
-
 
 	wp_enqueue_script( 'xplrme-slick', get_template_directory_uri() . '/assets/js/slick.js', array('jquery'),
         _S_VERSION, true );
 	wp_enqueue_script( 'xplrme-bootstrap', get_template_directory_uri() . '/assets/js/bootstrap.bundle.min.js', array
     ('jquery'), _S_VERSION, true );
-	wp_enqueue_script( 'xplrme-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'xplrme-custom', get_template_directory_uri() . '/assets/js/custom.js', array(), '', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
@@ -161,6 +217,32 @@ function xplrme_scripts() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'xplrme_scripts' );
+
+if ( !function_exists('xplrme_fonts_url') ) :
+
+    function xplrme_fonts_url()
+    {
+        $fonts_url = '';
+        $fonts     = array();
+        $subsets   = 'latin';
+        if ('off' !== _x('on', 'Roboto font: on or off', 'xplrme')) {
+            $fonts[] = 'Roboto: 100,200,300,400,500,600,700,800,900';
+        }
+        if ('off' !== _x('on', 'Rubik font: on or off', 'xplrme')) {
+            $fonts[] = 'Rubik: 400,500,700';
+        }
+        if ($fonts) {
+            $fonts_url = add_query_arg(array(
+                'family' => urlencode(implode('|', $fonts)),
+                'subset' => urlencode($subsets),
+            ), '//fonts.googleapis.com/css');
+        }
+
+        return $fonts_url;
+    }
+endif;
+
+
 
 /**
  * Implement the Custom Header feature.
