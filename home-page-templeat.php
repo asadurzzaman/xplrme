@@ -15,7 +15,7 @@ get_header();
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section_title text-start">
-                        <h2>Browse <span>Courses</span> by Sections</h2>
+                        <h2><?php echo get_theme_mod( 'courses_title_cb' ,'Browse Courses by Sections') ;  ?></h2>
                     </div>
                     <div class="tab_filter">
                         <ul class="nav">
@@ -412,6 +412,7 @@ get_header();
     </section>
     <section class="below_course_section">
         <div class="tab_desc">
+
             <div class="choose_tab full">
                 <ul class="nav">
                     <li>
@@ -434,6 +435,7 @@ get_header();
                     </li>
                 </ul>
             </div>
+
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="pills-home" >
                     <h3>Why You Should Chooss</h3>
@@ -454,6 +456,7 @@ get_header();
                         Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
                 </div>
             </div>
+
             <div class="choose_tab tab_mobile">
                 <ul class="nav">
                     <li>
@@ -483,7 +486,7 @@ get_header();
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section_header text-center">
-                        <h2>What Our <span>Explorers</span> Think</h2>
+                        <h2><?php echo get_theme_mod( 'review_title_cb' ,'What Our Explorers Think') ;  ?></h2>
                     </div>
                 </div>
             </div>
@@ -494,50 +497,55 @@ get_header();
             <div class="row">
                 <div class="col-lg-12">
                     <div class="carousel_area autoplay">
+                        <?php
+
+                            $args = array(
+                            'post_type' => 'review',
+                            'post_status' => 'publish',
+                            'posts_per_page' => -1,
+                        );
+
+                        $loop = new WP_Query( $args );
+
+                    while ( $loop->have_posts() ) : $loop->the_post();
+                    global $post;
+
+                    ?>
                         <div class="singe-item">
                             <div class="single_review text-center">
-                                <img src="assets/img/review-star.png" alt="">
+                                <?php
+                                    $id = get_the_ID();
+                                    $banner_img = get_post_meta($id, 'post_banner_img', true);
+                                    $banner_img = explode(',', $banner_img);
+                                    if(!empty($banner_img)) {
+                                        ?>
+                                    <?php  foreach ($banner_img as $attachment_id) { ?>
+                                            <img src="<?php echo wp_get_attachment_url( $attachment_id );?>">
+                                    <?php } ?>
+                                <?php } ?>
                             </div>
                             <div class="carousel-text">
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type. It was popularised in the 1960s with the release of Letraset sheets.</p>
+                                <?php the_content(); ?>
                                 <div class="author text-center">
-                                    <img src="<?php echo get_template_directory_uri();
-                                    ?>/assets/img/review.png" alt="">
-                                    <h4>Jone Do</h4>
-                                    <h6>France</h6>
+                                    <?php if ( has_post_thumbnail() ) : ?>
+                                        <a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
+                                            <?php the_post_thumbnail(); ?>
+                                        </a>
+                                    <?php endif; ?>
+
+                                    <h4><?php the_title(); ?></h4>
+                                    <h6><?php
+                                        $categories = get_the_terms( $post->ID, 'country' );
+                                        foreach( $categories as $category ) {
+                                            echo  $category->name;
+                                        } ?></h6>
                                 </div>
                             </div>
                         </div>
-                        <div class="singe-item">
-                            <div class="single_review text-center">
-                                <img src="<?php echo get_template_directory_uri();
-                                ?>/assets/img/review-star.png" alt="">
-                            </div>
-                            <div class="carousel-text">
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type. It was popularised in the 1960s with the release of Letraset sheets.</p>
-                                <div class="author text-center">
-                                    <img src="<?php echo get_template_directory_uri();
-                                    ?>/assets/img/review.png" alt="">
-                                    <h4>Jone Do</h4>
-                                    <h6>France</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="singe-item ">
-                            <div class="single_review text-center">
-                                <img src="<?php echo get_template_directory_uri();
-                                ?>/assets/img/review-star.png" alt="">
-                            </div>
-                            <div class="carousel-text">
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type. It was popularised in the 1960s with the release of Letraset sheets.</p>
-                                <div class="author text-center">
-                                    <img src="<?php echo get_template_directory_uri();
-                                    ?>/assets/img/review.png" alt="">
-                                    <h4>Jone Do</h4>
-                                    <h6>France</h6>
-                                </div>
-                            </div>
-                        </div>
+                    <?php
+                        endwhile;
+                        wp_reset_postdata();
+                        ?>
                     </div>
                 </div>
             </div>

@@ -210,6 +210,7 @@ function xplrme_scripts() {
         _S_VERSION, true );
 	wp_enqueue_script( 'xplrme-bootstrap', get_template_directory_uri() . '/assets/js/bootstrap.bundle.min.js', array
     ('jquery'), _S_VERSION, true );
+    wp_enqueue_script( 'xplrme-customizer', get_template_directory_uri() . '/js/customizer.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'xplrme-custom', get_template_directory_uri() . '/assets/js/custom.js', array(), '', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
@@ -268,4 +269,230 @@ require get_template_directory() . '/inc/customizer.php';
  */
 if ( class_exists( 'WooCommerce' ) ) {
 	require get_template_directory() . '/inc/woocommerce.php';
+}
+
+/**
+ * Register Review Post Type
+ */
+function xplrme_review_custom_post_type() {
+
+    $labels = array(
+        'name'                  => esc_html__( 'Review', 'xplrme' ),
+        'singular_name'         => esc_html__( 'Review', 'xplrme' ),
+        'menu_name'             => esc_html__( 'Reviews', 'xplrme' ),
+        'name_admin_bar'        => esc_html__( 'Review', 'xplrme' ),
+        'archives'              => esc_html__( 'Review Archives', 'xplrme' ),
+        'attributes'            => esc_html__( 'Review Attributes', 'xplrme' ),
+        'parent_item_colon'     => esc_html__( 'Parent Review:', 'xplrme' ),
+        'all_items'             => esc_html__( 'All Reviews', 'xplrme' ),
+        'add_new_item'          => esc_html__( 'Add New Review', 'xplrme' ),
+        'add_new'               => esc_html__( 'Add New', 'xplrme' ),
+        'new_item'              => esc_html__( 'New Review', 'xplrme' ),
+        'edit_item'             => esc_html__( 'Edit Review', 'xplrme' ),
+        'update_item'           => esc_html__( 'Update Review', 'xplrme' ),
+        'view_item'             => esc_html__( 'View Review', 'xplrme' ),
+        'view_items'            => esc_html__( 'View Reviews', 'xplrme' ),
+        'search_items'          => esc_html__( 'Search Review', 'xplrme' ),
+        'not_found'             => esc_html__( 'Not found', 'xplrme' ),
+        'not_found_in_trash'    => esc_html__( 'Not found in Trash', 'xplrme' ),
+        'featured_image'        => esc_html__( 'Featured Image', 'xplrme' ),
+        'set_featured_image'    => esc_html__( 'Set featured image', 'xplrme' ),
+        'remove_featured_image' => esc_html__( 'Remove featured image', 'xplrme' ),
+        'use_featured_image'    => esc_html__( 'Use as featured image', 'xplrme' ),
+        'uploaded_to_this_item' => esc_html__( 'Uploaded to this Review', 'xplrme' ),
+        'items_list'            => esc_html__( 'Reviews list', 'xplrme' ),
+        'items_list_navigation' => esc_html__( 'Reviews list navigation', 'xplrme' ),
+        'filter_items_list'     => esc_html__( 'Filter reviews list', 'xplrme' ),
+    );
+    $args = array(
+        'label'                 => __( 'Review', 'xplrme' ),
+        'description'           => __( 'Review Description', 'xplrme' ),
+        'labels'                => $labels,
+        'supports'              => false,
+        'hierarchical'          => false,
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 5,
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'page',
+        'supports' => [
+            'title',
+            'editor',
+            'thumbnail',
+        ],
+    );
+    register_post_type( 'review', $args );
+
+}
+add_action( 'init', 'xplrme_review_custom_post_type', 0 );
+
+/**
+ * Register Custom Taxonomy For Review Post Type
+ */
+function custom_taxonomy() {
+
+    $labels = array(
+        'name'                       => _x( 'Countrys', 'xplrme' ),
+        'singular_name'              => _x( 'Country', 'xplrme' ),
+        'menu_name'                  => __( 'Country', 'xplrme' ),
+        'all_items'                  => __( 'All Items', 'xplrme' ),
+        'parent_item'                => __( 'Parent Item', 'xplrme' ),
+        'parent_item_colon'          => __( 'Parent Item:', 'xplrme' ),
+        'new_item_name'              => __( 'New Item Name', 'xplrme' ),
+        'add_new_item'               => __( 'Add New Item', 'xplrme' ),
+        'edit_item'                  => __( 'Edit Item', 'xplrme' ),
+        'update_item'                => __( 'Update Item', 'xplrme' ),
+        'view_item'                  => __( 'View Item', 'xplrme' ),
+        'separate_items_with_commas' => __( 'Separate items with commas', 'xplrme' ),
+        'add_or_remove_items'        => __( 'Add or remove items', 'xplrme' ),
+        'choose_from_most_used'      => __( 'Choose from the most used', 'xplrme' ),
+        'popular_items'              => __( 'Popular Items', 'xplrme' ),
+        'search_items'               => __( 'Search Items', 'xplrme' ),
+        'not_found'                  => __( 'Not Found', 'xplrme' ),
+        'no_terms'                   => __( 'No items', 'xplrme' ),
+        'items_list'                 => __( 'Items list', 'xplrme' ),
+        'items_list_navigation'      => __( 'Items list navigation', 'xplrme' ),
+    );
+    $args = array(
+        'labels'                     => $labels,
+        'hierarchical'               => true,
+        'public'                     => true,
+        'show_ui'                    => true,
+        'show_admin_column'          => true,
+        'show_in_nav_menus'          => true,
+        'show_tagcloud'              => true,
+    );
+    register_taxonomy( 'country', array( 'review' ), $args );
+
+}
+add_action( 'init', 'custom_taxonomy', 0 );
+
+/**
+ * Add meta Box for Review Images
+ */
+
+add_action( 'add_meta_boxes', 'multi_media_uploader_meta_box' );
+function multi_media_uploader_meta_box() {
+    add_meta_box( 'my-post-box', 'Review Image', 'multi_media_uploader_meta_box_func', 'review', 'side', 'high' );
+}
+
+function multi_media_uploader_meta_box_func($post) {
+    $banner_img = get_post_meta($post->ID,'post_banner_img',true);
+    ?>
+    <table cellspacing="10" cellpadding="10">
+        <tr>
+            <td>
+                <?php echo multi_media_uploader_field( 'post_banner_img', $banner_img ); ?>
+            </td>
+        </tr>
+    </table>
+
+    <script type="text/javascript">
+        jQuery(function($) {
+
+            $('body').on('click', '.wc_multi_upload_image_button', function(e) {
+                e.preventDefault();
+                var button = $(this),
+                    custom_uploader = wp.media({
+                        title: 'Insert image',
+                        button: { text: 'Use this image' },
+                        multiple: true
+                    }).on('select', function() {
+                        var attech_ids = '';
+                        attachments
+                        var attachments = custom_uploader.state().get('selection'),
+                            attachment_ids = new Array(),
+                            i = 0;
+                        attachments.each(function(attachment) {
+                            attachment_ids[i] = attachment['id'];
+                            attech_ids += ',' + attachment['id'];
+                            if (attachment.attributes.type == 'image') {
+                                $(button).siblings('ul').append('<li data-attechment-id="' + attachment['id'] + '"><a href="' + attachment.attributes.url + '" target="_blank"><img class="true_pre_image" src="' + attachment.attributes.url + '" /></a><i class=" dashicons dashicons-no delete-img"></i></li>');
+                            } else {
+                                $(button).siblings('ul').append('<li data-attechment-id="' + attachment['id'] + '"><a href="' + attachment.attributes.url + '" target="_blank"><img class="true_pre_image" src="' + attachment.attributes.icon + '" /></a><i class=" dashicons dashicons-no delete-img"></i></li>');
+                            }
+
+                            i++;
+                        });
+
+                        var ids = $(button).siblings('.attechments-ids').attr('value');
+                        if (ids) {
+                            var ids = ids + attech_ids;
+                            $(button).siblings('.attechments-ids').attr('value', ids);
+                        } else {
+                            $(button).siblings('.attechments-ids').attr('value', attachment_ids);
+                        }
+                        $(button).siblings('.wc_multi_remove_image_button').show();
+                    })
+                        .open();
+            });
+
+            $('body').on('click', '.wc_multi_remove_image_button', function() {
+                $(this).hide().prev().val('').prev().addClass('button').html('Add Media');
+                $(this).parent().find('ul').empty();
+                return false;
+            });
+
+        });
+
+        jQuery(document).ready(function() {
+            jQuery(document).on('click', '.multi-upload-medias ul li i.delete-img', function() {
+                var ids = [];
+                var this_c = jQuery(this);
+                jQuery(this).parent().remove();
+                jQuery('.multi-upload-medias ul li').each(function() {
+                    ids.push(jQuery(this).attr('data-attechment-id'));
+                });
+                jQuery('.multi-upload-medias').find('input[type="hidden"]').attr('value', ids);
+            });
+        })
+    </script>
+
+    <?php
+}
+
+function multi_media_uploader_field($name, $value = '') {
+    $image = '">Add Review';
+    $image_str = '';
+    $image_size = 'full';
+    $display = 'none';
+    $value = explode(',', $value);
+
+    if (!empty($value)) {
+        foreach ($value as $values) {
+            if ($image_attributes = wp_get_attachment_image_src($values, $image_size)) {
+                $image_str .= '<li data-attechment-id=' . $values . '><a href="' . $image_attributes[0] . '" target="_blank"><img src="' . $image_attributes[0] . '" /></a><i class="dashicons dashicons-no delete-img"></i></li>';
+            }
+        }
+
+    }
+
+    if($image_str){
+        $display = 'inline-block';
+    }
+
+    return '<div class="multi-upload-medias"><ul>' . $image_str . '</ul><a href="#" class="wc_multi_upload_image_button button' . $image . '</a><input type="hidden" class="attechments-ids ' . $name . '" name="' . $name . '" id="' . $name . '" value="' . esc_attr(implode(',', $value)) . '" /><a href="#" class="wc_multi_remove_image_button button" style="display:inline-block;display:' . $display . '">Remove Review</a></div>';
+}
+
+// Save Meta Box values.
+add_action( 'save_post', 'wc_meta_box_save' );
+function wc_meta_box_save( $post_id ) {
+
+    if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        return;
+    }
+
+    if( !current_user_can( 'edit_post' ) ){
+        return;
+    }
+
+    if( isset( $_POST['post_banner_img'] ) ){
+        update_post_meta( $post_id, 'post_banner_img', $_POST['post_banner_img'] );
+    }
 }

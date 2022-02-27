@@ -19,7 +19,27 @@
 
 	<?php wp_head(); ?>
 </head>
+<style>
+    <?php
 
+    $img_id = get_theme_mod("banner_image");
+
+    $img_url = wp_get_attachment_image_src($img_id );
+
+     ?>
+    .hero_section:after {
+        content: "";
+        width: 100%;
+        height: 100%;
+        background: url(<?php echo $img_url; ?>) no-repeat center center;
+        top: 0;
+        right: 0;
+        position: absolute;
+        display: inline-block;
+        background-size: cover;
+        z-index: -1;
+    }
+</style>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 <div id="page" class="site">
