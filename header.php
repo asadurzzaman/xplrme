@@ -19,24 +19,56 @@
 
 	<?php wp_head(); ?>
 </head>
+<?php
+
+
+
+
+
+?>
 <style>
     <?php
+    $bannerid = get_theme_mod( 'cd_banner_img' );
+    $bannerurl = wp_get_attachment_url( $bannerid );
 
-    $img_id = get_theme_mod("banner_image");
-
-    $img_url = wp_get_attachment_image_src($img_id );
-
+    $joinid = get_theme_mod( 'join_us_img' );
+    $joinurl = wp_get_attachment_url( $joinid );
+    var_dump($joinurl);
+    var_dump($bannerurl);
      ?>
+    .hero_section{
+        position: relative;
+    }
     .hero_section:after {
         content: "";
         width: 100%;
         height: 100%;
-        background: url(<?php echo $img_url; ?>) no-repeat center center;
+        background: url(<?php echo $bannerurl; ?>) no-repeat center center;
         top: 0;
         right: 0;
         position: absolute;
         display: inline-block;
         background-size: cover;
+        z-index: -1;
+    }
+    <?php
+
+
+     ?>
+    section.join_us_section {
+        position: relative;
+        margin: 100px 0px 0px 0px;
+        padding: 100px;
+    }
+    section.join_us_section:after{
+        position: absolute;
+        content: "";
+        top:0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background: url(<?php echo $joinurl; ?>) no-repeat left center;
+        background-size: auto;
         z-index: -1;
     }
 </style>
@@ -153,15 +185,14 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="banner_text text-right">
-							<h1>Banner Title<br> Goes Here</h1>
-							<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-								Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-							<a href="#">Get Started</a>
+                            <h1><?php echo get_theme_mod( 'banner_text_cb','Banner Title Goes Here' ) ?></h1>
+							<p><?php echo get_theme_mod( 'banner_text_pre','Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s.' ) ?></p>
+							<a href="#"><?php echo get_theme_mod( 'banner_button_cb','Get Started' ) ?></a>
 						</div>
 						<div class="for_mobile">
 							<img src="<?php echo get_template_directory_uri();
                             ?>/assets/img/banner-image.png" alt="">
-							<a href="#">Get Started</a>
+							<a href="#"><?php echo get_theme_mod( 'banner_button_cb','Get Started' ) ?></a>
 						</div>
 					</div>
 				</div>

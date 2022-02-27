@@ -70,26 +70,26 @@ function wpc_customizer_settings($wp_customize){
         'priority'   => 10,
     ) );
 
-    $wp_customize->add_setting( 'cd_button_display' , array(
-        'default'     => true,
+    $wp_customize->add_setting( 'cd_banner_img' , array(
         'transport'   => 'refresh',
+        'sanitize_callback' => 'esc_url_raw'
     ) );
 
     $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'sample_default_media',
         array(
-            'label' => __( 'Default Media Control', 'xplrme' ),
+            'label' => __( 'Banner Image', 'xplrme' ),
             'description' => esc_html__( 'This is the description for the Media Control','xplrme' ),
             'section' => 'cd_button',
-            'settings'   => 'cd_button_display',
+            'settings'   => 'cd_banner_img',
             'mime_type' => 'image',
             'button_labels' => array(
-                'select' => __( 'Select File' ),
-                'change' => __( 'Change File' ),
-                'default' => __( 'Default' ),
-                'remove' => __( 'Remove' ),
-                'placeholder' => __( 'No file selected' ),
-                'frame_title' => __( 'Select File' ),
-                'frame_button' => __( 'Choose File' ),
+                'select' => esc_html__( 'Select File' ),
+                'change' => esc_html__( 'Change File' ),
+                'default' => esc_html__( 'Default' ),
+                'remove' => esc_html__( 'Remove' ),
+                'placeholder' => esc_html__( 'No file selected' ),
+                'frame_title' => esc_html__( 'Select File' ),
+                'frame_button' => esc_html__( 'Choose File' ),
             )
         )
     ) );
@@ -144,4 +144,32 @@ function wpc_customizer_settings($wp_customize){
         'type' => 'text',
     ) );
 
+    $wp_customize->add_setting( 'join_us_img' , array(
+        'transport'   => 'refresh',
+        'sanitize_callback' => 'esc_url_raw'
+    ) );
+
+    $wp_customize->add_control(
+        new WP_Customize_Media_Control(
+            $wp_customize,
+            'join_us_default_media',
+
+        array(
+            'label' => __( 'Join us Image', 'xplrme' ),
+            'description' => esc_html__( 'This is the description for the Media Control','xplrme' ),
+            'section' => 'cd_button',
+            'settings'   => 'join_us_img',
+            'mime_type' => 'image',
+            'button_labels' => array(
+                'select' => esc_html__( 'Select File' ),
+                'change' => esc_html__( 'Change File' ),
+                'default' => esc_html__( 'Default' ),
+                'remove' => esc_html__( 'Remove' ),
+                'placeholder' => esc_html__( 'No file selected' ),
+                'frame_title' => esc_html__( 'Select File' ),
+                'frame_button' => esc_html__( 'Choose File' ),
+            )
+        )
+    ) );
 }
+
