@@ -72,7 +72,6 @@ function wpc_customizer_settings($wp_customize){
 
     $wp_customize->add_setting( 'cd_banner_img' , array(
         'transport'   => 'refresh',
-        'sanitize_callback' => 'esc_url_raw'
     ) );
 
     $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'sample_default_media',
@@ -146,7 +145,6 @@ function wpc_customizer_settings($wp_customize){
 
     $wp_customize->add_setting( 'join_us_img' , array(
         'transport'   => 'refresh',
-        'sanitize_callback' => 'esc_url_raw'
     ) );
 
     $wp_customize->add_control(
