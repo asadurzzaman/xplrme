@@ -65,6 +65,58 @@ add_action("customize_register","wpc_customizer_settings");
 
 function wpc_customizer_settings($wp_customize){
 
+    $wp_customize->add_panel( 'header_naviation_panel',
+        array(
+            'title' => __( 'Header & Navigation' ),
+            'description' => esc_html__( 'Adjust your Header and Navigation sections.' ), // Include html tags such as
+
+            'priority' => 160, // Not typically needed. Default is 160
+            'capability' => 'edit_theme_options', // Not typically needed. Default is edit_theme_options
+        )
+    );
+    $wp_customize->add_section( 'sample_custom_controls_section',
+        array(
+            'title' => __( 'Sample Custom Controls' ),
+            'description' => esc_html__( 'These are an example of Customizer Custom Controls.' ),
+            'panel' => 'header_naviation_panel', // Only needed if adding your Section to a Panel
+            'priority' => 160, // Not typically needed. Default is 160
+            'capability' => 'edit_theme_options', // Not typically needed. Default is edit_theme_options
+        )
+    );
+    $wp_customize->add_setting( 'sample_custom_controls_section',
+        array(
+            'transport' => 'refresh', // Optional. 'refresh' or 'postMessage'. Default: 'refresh'
+        )
+    );
+    $wp_customize->add_setting( 'sample_default_text3',
+        array(
+            'default' => '',
+            'transport' => 'refresh',
+        )
+    );
+
+    $wp_customize->add_control( 'sample_default_text3',
+        array(
+            'label' => __( 'Default Text Control' ),
+            'description' => esc_html__( 'Text controls Type can be either text, email, url, number, hidden, or date' ),
+            'section' => 'sample_custom_controls_section',
+            'settings'   => 'sample_default_text3',
+            'priority' => 10, // Optional. Order priority to load the control. Default: 10
+            'type' => 'text', // Can be either text, email, url, number, hidden, or date
+            'capability' => 'edit_theme_options', // Optional. Default: 'edit_theme_options'
+            'input_attrs' => array( // Optional.
+                'class' => 'my-custom-class',
+                'style' => 'border: 1px solid rebeccapurple',
+                'placeholder' => __( 'Enter name...' ),
+            ),
+        )
+    );
+
+
+
+
+
+
     $wp_customize->add_section( 'cd_button' , array(
         'title'      => 'Xplrme',
         'priority'   => 10,
