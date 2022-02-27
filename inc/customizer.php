@@ -169,5 +169,8 @@ function wpc_customizer_settings($wp_customize){
             )
         )
     ) );
+
+
+
 }
 
