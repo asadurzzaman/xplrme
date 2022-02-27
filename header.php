@@ -177,7 +177,7 @@
 				</div>
 			</div>
 		</div>
-
+		<?php if( is_front_page()) {?>
 		<div class="hero_section">
 			<div class="container">
 				<div class="row">
@@ -196,4 +196,5 @@
 				</div>
 			</div>
 		</div>
+		<?php } ?>
 	</header>
