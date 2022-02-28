@@ -221,7 +221,6 @@ function wpc_customizer_settings($wp_customize){
             )
         )
     ) );
-
     $wp_customize->add_setting( 'tab_1_title' , array(
         'transport'   => 'refresh',
     ) );
@@ -301,5 +300,6 @@ function wpc_customizer_settings($wp_customize){
         'settings' => 'tab_3_desc',
         'type' => 'textarea',
     ) );
+
 }
 

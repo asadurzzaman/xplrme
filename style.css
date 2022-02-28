@@ -1238,3 +1238,8 @@ footer{
 .carousel_area .slick-slide img {
 	display: inline-block;
 }
+section.join_us_section {
+	position: relative;
+	margin: 100px 0px 0px 0px;
+	padding: 100px;
+}

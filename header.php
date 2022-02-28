@@ -33,8 +33,7 @@
 
     $joinid = get_theme_mod( 'join_us_img' );
     $joinurl = wp_get_attachment_url( $joinid );
-    var_dump($joinurl);
-    var_dump($bannerurl);
+
      ?>
     .hero_section{
         position: relative;
@@ -52,7 +51,6 @@
         z-index: -1;
     }
     <?php
-
 
      ?>
     section.join_us_section {
@@ -179,7 +177,7 @@
 				</div>
 			</div>
 		</div>
-
+		<?php if( is_front_page()) {?>
 		<div class="hero_section">
 			<div class="container">
 				<div class="row">
@@ -198,4 +196,5 @@
 				</div>
 			</div>
 		</div>
+		<?php } ?>
 	</header>

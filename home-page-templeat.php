@@ -89,7 +89,7 @@ $categories = woofusion_get_categories();
                             while ( $loop_content->have_posts() ) : $loop_content->the_post();
                                 $counter++;
                                     ?>
-                                    <div class="single_course tab-pane fade <?php echo ( $counter == 1 ) ? 'show active' : '';?>" role="tabpanel" data-cat="">
+                                    <div class="single_course tab-pane fade show active" role="tabpanel" data-cat="">
                                         <div class="course_img">
                                             <?php echo get_the_post_thumbnail(); ?>
                                         </div>
@@ -115,12 +115,12 @@ $categories = woofusion_get_categories();
                                 </div>
                             </div>
 
-                       <?php $count++; }
+                       <?php   }
                     }
 
                     ?>
 
- 
+
 
                 </div>
             </div>
