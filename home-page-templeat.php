@@ -85,11 +85,12 @@ $categories = woofusion_get_categories();
                             );
                             $loop_content = new WP_Query( $query );
 
-                            $counter = 0;
                             while ( $loop_content->have_posts() ) : $loop_content->the_post();
-                                $counter++;
+
                                     ?>
-                                    <div class="single_course tab-pane fade show active" role="tabpanel" data-cat="">
+
+                                    <div class="single_course tab-pane fade show active" role="tabpanel">
+
                                         <div class="course_img">
                                             <?php echo get_the_post_thumbnail(); ?>
                                         </div>
@@ -114,21 +115,16 @@ $categories = woofusion_get_categories();
 
                                 </div>
                             </div>
-
-                       <?php   }
+                       <?php  $count++; }
                     }
-
                     ?>
-
-
-
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-lg-12">
                     <div class="explore_button text-center">
-                        <a href="#">Explore More <i class="fas fa-arrow-right    "></i></a>
+                        <a href="<?php echo get_permalink( wc_get_page_id( 'shop' ) ); ?>">Explore More <i class="fas fa-arrow-right    "></i></a>
                     </div>
                 </div>
             </div>
