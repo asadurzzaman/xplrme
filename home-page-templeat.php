@@ -37,58 +37,6 @@ if(!function_exists('woofusion_get_categories')){
 
 $categories = woofusion_get_categories();
 
-       /* echo '<pre>';
-        print_r($categories);
-        echo '</pre>';*/
-
-function product_filter(){
-    global $post;
-    global $woocommerce;
-    global $product;
-
-    $product_query = array(
-        'post_type' => 'product',
-        'posts_per_page' => 4,
-        'orderby' => 'rand'
-    );
-
-    $product_loop = new WP_Query( $product_query );
-    $counter = 0;
-    while ( $product_loop->have_posts() ) : $product_loop->the_post();
-        $counter++;
-        $terms = get_the_terms( $post->ID, 'product_cat' );
-        foreach ($terms as $term) {?>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link <?=($counter == 1) ? 'active' : ''?>" id="<?php echo $product_cat_id = $term->name; ?>-tab" data-bs-toggle="tab" data-bs-target="#<?php echo $product_cat_id = $term->name; ?>" ><?php echo $product_cat_id = $term->name; ?></button>
-            </li>
-       <?php }
-
-    endwhile;
-    wp_reset_query();
-
-}
-
-function product_filter_content(){
-    global $post;
-    global $woocommerce;
-    global $product;
-
-    $query = array(
-        'post_type' => 'product',
-        'posts_per_page' => 4,
-        'product_cat' => product_filter(),
-        'orderby' => 'rand'
-    );
-    $loop_content = new WP_Query( $query );
-    $counter = 0;
-    while ( $loop_content->have_posts() ) : $loop_content->the_post();
-
-
-    endwhile;
-    wp_reset_query();
-
-}
-
 ?>
 
     <section class="course_section">
@@ -119,10 +67,11 @@ function product_filter_content(){
                 <div class="tab-content">
                     <?php
                     if (!empty($categories)) {
+                        $count = 1;
                         foreach ($categories as $val) {
                             $category_name = strtolower( trim( $val['name'], ' ' ) );
                             ?>
-                            <div class="tab-pane fade show active" id="<?php echo $category_name; ?>" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="tab-pane fade <?php echo ( $count == 1 ) ? 'show active' : '';?>" id="<?php echo $category_name; ?>" role="tabpanel" aria-labelledby="home-tab">
                                 <div class="slick-area">
                                     <?php
                             global $post;
@@ -131,12 +80,10 @@ function product_filter_content(){
 
                             $query = array(
                                 'post_type' => 'product',
-                                'posts_per_page' => 4,
+                                'posts_per_page' => -1,
                                 'orderby' => 'rand',
-                                'product_cat' => $category_name,
                             );
                             $loop_content = new WP_Query( $query );
- 
 
                             $counter = 0;
                             while ( $loop_content->have_posts() ) : $loop_content->the_post();
@@ -144,18 +91,19 @@ function product_filter_content(){
                                     ?>
                                     <div class="single_course tab-pane fade <?php echo ( $counter == 1 ) ? 'show active' : '';?>" role="tabpanel" data-cat="">
                                         <div class="course_img">
-                                            <img src="assets/img/course.png" alt="">
+                                            <?php echo get_the_post_thumbnail(); ?>
                                         </div>
                                         <div class="course_text">
                                             <h3><?php the_title(); ?></h3>
                                             <ul class="course_cat">
+
                                                 <li><a href="#">Group</a></li>
                                                 <li><a href="#">Available</a></li>
                                             </ul>
                                         </div>
                                         <div class="course_bottom">
-                                            <p class="price">$ 35.73</p>
-                                            <a href="#"><i class="fas fa-angle-right    "></i></a>
+                                            <p class="price"><?php echo $product->get_price_html(); ?></p>
+                                            <a href="<?php the_permalink(); ?>"><i class="fas fa-angle-right    "></i></a>
                                         </div>
                                     </div>
 
@@ -166,243 +114,13 @@ function product_filter_content(){
 
                                 </div>
                             </div>
-                       <?php }
+
+                       <?php $count++; }
                     }
 
                     ?>
 
-
-
-
-
-                    <!--<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="row">
-                            <div class="col-lg-3">
-                                <div class="single_course tab-pane fade show active" role="tabpanel">
-                                    <div class="course_img">
-                                        <img src="assets/img/course.png" alt="">
-                                    </div>
-                                    <div class="course_text">
-                                        <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
-                                        <ul class="course_cat">
-                                            <li><a href="#">Group</a></li>
-                                            <li><a href="#">Available</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="course_bottom">
-                                        <p class="price">$ 35.73</p>
-                                        <a href="#"><i class="fas fa-angle-right    "></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="single_course tab-pane fade show active" role="tabpanel">
-                                    <div class="course_img">
-                                        <img src="assets/img/course.png" alt="">
-                                    </div>
-                                    <div class="course_text">
-                                        <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
-                                        <ul class="course_cat">
-                                            <li><a href="#">Group</a></li>
-                                            <li><a href="#">Available</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="course_bottom">
-                                        <p class="price">$ 35.73</p>
-                                        <a href="#"><i class="fas fa-angle-right    "></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="single_course tab-pane fade show active" role="tabpanel">
-                                    <div class="course_img">
-                                        <img src="assets/img/course.png" alt="">
-                                    </div>
-                                    <div class="course_text">
-                                        <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
-                                        <ul class="course_cat">
-                                            <li><a href="#">Group</a></li>
-                                            <li><a href="#">Available</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="course_bottom">
-                                        <p class="price">$ 35.73</p>
-                                        <a href="#"><i class="fas fa-angle-right    "></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="single_course tab-pane fade show active" role="tabpanel">
-                                    <div class="course_img">
-                                        <img src="assets/img/course.png" alt="">
-                                    </div>
-                                    <div class="course_text">
-                                        <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
-                                        <ul class="course_cat">
-                                            <li><a href="#">Group</a></li>
-                                            <li><a href="#">Available</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="course_bottom">
-                                        <p class="price">$ 35.73</p>
-                                        <a href="#"><i class="fas fa-angle-right    "></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                        <div class="row">
-                            <div class="col-lg-3">
-                                <div class="single_course tab-pane fade show active" role="tabpanel">
-                                    <div class="course_img">
-                                        <img src="assets/img/course.png" alt="">
-                                    </div>
-                                    <div class="course_text">
-                                        <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
-                                        <ul class="course_cat">
-                                            <li><a href="#">Group</a></li>
-                                            <li><a href="#">Available</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="course_bottom">
-                                        <p class="price">$ 35.73</p>
-                                        <a href="#"><i class="fas fa-angle-right    "></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="single_course tab-pane fade show active" role="tabpanel">
-                                    <div class="course_img">
-                                        <img src="assets/img/course.png" alt="">
-                                    </div>
-                                    <div class="course_text">
-                                        <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
-                                        <ul class="course_cat">
-                                            <li><a href="#">Group</a></li>
-                                            <li><a href="#">Available</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="course_bottom">
-                                        <p class="price">$ 35.73</p>
-                                        <a href="#"><i class="fas fa-angle-right    "></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="single_course tab-pane fade show active" role="tabpanel">
-                                    <div class="course_img">
-                                        <img src="assets/img/course.png" alt="">
-                                    </div>
-                                    <div class="course_text">
-                                        <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
-                                        <ul class="course_cat">
-                                            <li><a href="#">Group</a></li>
-                                            <li><a href="#">Available</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="course_bottom">
-                                        <p class="price">$ 35.73</p>
-                                        <a href="#"><i class="fas fa-angle-right    "></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="single_course tab-pane fade show active" role="tabpanel">
-                                    <div class="course_img">
-                                        <img src="assets/img/course.png" alt="">
-                                    </div>
-                                    <div class="course_text">
-                                        <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
-                                        <ul class="course_cat">
-                                            <li><a href="#">Group</a></li>
-                                            <li><a href="#">Available</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="course_bottom">
-                                        <p class="price">$ 35.73</p>
-                                        <a href="#"><i class="fas fa-angle-right    "></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="contact-tab">
-                        <div class="row">
-                            <div class="col-lg-3">
-                                <div class="single_course tab-pane fade show active" role="tabpanel">
-                                    <div class="course_img">
-                                        <img src="assets/img/course.png" alt="">
-                                    </div>
-                                    <div class="course_text">
-                                        <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
-                                        <ul class="course_cat">
-                                            <li><a href="#">Group</a></li>
-                                            <li><a href="#">Available</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="course_bottom">
-                                        <p class="price">$ 35.73</p>
-                                        <a href="#"><i class="fas fa-angle-right    "></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="single_course tab-pane fade show active" role="tabpanel">
-                                    <div class="course_img">
-                                        <img src="assets/img/course.png" alt="">
-                                    </div>
-                                    <div class="course_text">
-                                        <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
-                                        <ul class="course_cat">
-                                            <li><a href="#">Group</a></li>
-                                            <li><a href="#">Available</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="course_bottom">
-                                        <p class="price">$ 35.73</p>
-                                        <a href="#"><i class="fas fa-angle-right    "></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="single_course tab-pane fade show active" role="tabpanel">
-                                    <div class="course_img">
-                                        <img src="assets/img/course.png" alt="">
-                                    </div>
-                                    <div class="course_text">
-                                        <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
-                                        <ul class="course_cat">
-                                            <li><a href="#">Group</a></li>
-                                            <li><a href="#">Available</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="course_bottom">
-                                        <p class="price">$ 35.73</p>
-                                        <a href="#"><i class="fas fa-angle-right    "></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="single_course tab-pane fade show active" role="tabpanel">
-                                    <div class="course_img">
-                                        <img src="assets/img/course.png" alt="">
-                                    </div>
-                                    <div class="course_text">
-                                        <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
-                                        <ul class="course_cat">
-                                            <li><a href="#">Group</a></li>
-                                            <li><a href="#">Available</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="course_bottom">
-                                        <p class="price">$ 35.73</p>
-                                        <a href="#"><i class="fas fa-angle-right    "></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
+ 
 
                 </div>
             </div>

@@ -21,13 +21,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/home-page-templeat.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="411">
-              <caret line="138" column="1" lean-forward="true" selection-start-line="138" selection-start-column="1" selection-end-line="138" selection-end-column="1" />
+            <state relative-caret-position="179">
+              <caret line="122" column="1" selection-start-line="122" selection-start-column="1" selection-end-line="122" selection-end-column="1" />
               <folding>
                 <element signature="e#6#127#0#PHP" expanded="true" />
-                <element signature="n#product_filter#0;n#!!top" />
-                <element signature="e#15105#19943#0#HTML" />
-                <element signature="e#19964#24798#0#HTML" />
               </folding>
             </state>
           </provider>
@@ -71,6 +68,11 @@
       </file>
     </leaf>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>get_the_terms</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -89,7 +91,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1936" />
@@ -148,12 +150,12 @@
       <workItem from="1645939968545" duration="19232000" />
       <workItem from="1646022213758" duration="12789000" />
       <workItem from="1646038427010" duration="2694000" />
-      <workItem from="1646041390428" duration="7468000" />
+      <workItem from="1646041390428" duration="8374000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="52819000" />
+    <option name="totallyTimeSpent" value="53725000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -226,13 +228,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/home-page-templeat.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="411">
-          <caret line="138" column="1" lean-forward="true" selection-start-line="138" selection-start-column="1" selection-end-line="138" selection-end-column="1" />
+        <state relative-caret-position="179">
+          <caret line="122" column="1" selection-start-line="122" selection-start-column="1" selection-end-line="122" selection-end-column="1" />
           <folding>
             <element signature="e#6#127#0#PHP" expanded="true" />
-            <element signature="n#product_filter#0;n#!!top" />
-            <element signature="e#15105#19943#0#HTML" />
-            <element signature="e#19964#24798#0#HTML" />
           </folding>
         </state>
       </provider>
