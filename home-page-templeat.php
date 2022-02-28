@@ -132,14 +132,11 @@ function product_filter_content(){
                             $query = array(
                                 'post_type' => 'product',
                                 'posts_per_page' => 4,
-                                'orderby' => 'rand', 
+                                'orderby' => 'rand',
+                                'product_cat' => $category_name,
                             );
                             $loop_content = new WP_Query( $query );
-
-                            /*echo '<pre>';
-                            print_r($loop_content);
-                            echo '</pre>';*/
-
+ 
 
                             $counter = 0;
                             while ( $loop_content->have_posts() ) : $loop_content->the_post();
