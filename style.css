@@ -1101,7 +1101,7 @@ section.join_us_section::before{
 	line-height: 19px;
 	color: #DDFDFB;
 }
-.slick-dots li button {
+.review_section .slick-dots li button {
 	font-size: 0;
 	line-height: 0;
 	display: block;
@@ -1115,7 +1115,7 @@ section.join_us_section::before{
 	background: var(--dev-button-color);
 	border-radius: 50px;
 }
-.slick-dots li button:before {
+.review_section .slick-dots li button:before {
 	font-family: 'slick';
 	font-size: 38px;
 	line-height: 12px;
@@ -1131,11 +1131,11 @@ section.join_us_section::before{
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
-.slick-dots li.slick-active button:before {
+.review_section .slick-dots li.slick-active button:before {
 	opacity: 1;
 	color:var(--dev-bg);
 }
-.slick-initialized .slick-slide {
+.course_section .slick-initialized .slick-slide {
 	display: block;
 	margin-right: 18px;
 }
@@ -1244,5 +1244,5 @@ section.join_us_section {
 	padding: 100px;
 }
 .tab-content {
-	margin-top: 35px;
+	margin-top: 35px !important;
 }

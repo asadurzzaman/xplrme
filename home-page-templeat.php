@@ -10,6 +10,7 @@
 
 get_header();
 
+
 if(!function_exists('woofusion_get_categories')){
     function woofusion_get_categories($category_type = 'product_cat'){
         $categories = array();
@@ -34,9 +35,7 @@ if(!function_exists('woofusion_get_categories')){
         return $categories;
     }
 }
-
 $categories = woofusion_get_categories();
-
 ?>
 
     <section class="course_section">
