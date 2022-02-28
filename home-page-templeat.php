@@ -9,7 +9,88 @@
 
 
 get_header();
+
+if(!function_exists('woofusion_get_categories')){
+    function woofusion_get_categories($category_type = 'product_cat'){
+        $categories = array();
+        // get categories
+        $query_args = [
+            'taxonomy'      => $category_type,
+            /*'orderby'       => 'name',
+            'order'         => 'DESC',
+            'hide_empty'    => false,
+            'number'        => 1500*/
+        ];
+
+        $terms = get_terms( $query_args );
+        $count = count( (array) $terms);
+
+        if($count > 0):
+            foreach ($terms as $term) {
+                $categories[] = array('name' => $term->name, 'term_id' => $term->term_id);
+            }
+        endif;
+
+        return $categories;
+    }
+}
+
+$categories = woofusion_get_categories();
+
+       /* echo '<pre>';
+        print_r($categories);
+        echo '</pre>';*/
+
+function product_filter(){
+    global $post;
+    global $woocommerce;
+    global $product;
+
+    $product_query = array(
+        'post_type' => 'product',
+        'posts_per_page' => 4,
+        'orderby' => 'rand'
+    );
+
+    $product_loop = new WP_Query( $product_query );
+    $counter = 0;
+    while ( $product_loop->have_posts() ) : $product_loop->the_post();
+        $counter++;
+        $terms = get_the_terms( $post->ID, 'product_cat' );
+        foreach ($terms as $term) {?>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link <?=($counter == 1) ? 'active' : ''?>" id="<?php echo $product_cat_id = $term->name; ?>-tab" data-bs-toggle="tab" data-bs-target="#<?php echo $product_cat_id = $term->name; ?>" ><?php echo $product_cat_id = $term->name; ?></button>
+            </li>
+       <?php }
+
+    endwhile;
+    wp_reset_query();
+
+}
+
+function product_filter_content(){
+    global $post;
+    global $woocommerce;
+    global $product;
+
+    $query = array(
+        'post_type' => 'product',
+        'posts_per_page' => 4,
+        'product_cat' => product_filter(),
+        'orderby' => 'rand'
+    );
+    $loop_content = new WP_Query( $query );
+    $counter = 0;
+    while ( $loop_content->have_posts() ) : $loop_content->the_post();
+
+
+    endwhile;
+    wp_reset_query();
+
+}
+
 ?>
+
     <section class="course_section">
         <div class="container">
             <div class="row">
@@ -19,152 +100,90 @@ get_header();
                     </div>
                     <div class="tab_filter">
                         <ul class="nav">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" >Recommended</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile">Live</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact">Self-Paced</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button id="contact-tab" data-bs-toggle="tab" data-bs-target="#all">All</button>
-                            </li>
+                            <?php
+                                if( !empty( $categories ) ){
+                                    $i = 1;
+                                    foreach ( $categories as $row ){
+                                            $category_slug = strtolower( trim( $row['name'], ' ' ) );
+                                        ?>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link <?php echo ( $i == 1 ) ? 'active' : '';?>" id="" data-bs-toggle="tab" data-bs-target="#<?php echo $category_slug; ?>" ><?php echo $row['name']; ?></button>
+                                        </li>
+                                    <?php $i++;}
+                                }
+                            ?>
                         </ul>
                     </div>
                 </div>
+
                 <div class="tab-content">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <div class="slick-area">
-                            <div class="single_course tab-pane fade show active" role="tabpanel">
-                                <div class="course_img">
-                                    <img src="<?php echo get_template_directory_uri();
-                                    ?>/assets/img/course.png" alt="">
-                                </div>
-                                <div class="course_text">
-                                    <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
-                                    <ul class="course_cat">
-                                        <li><a href="#">Group</a></li>
-                                        <li><a href="#">Available</a></li>
-                                    </ul>
-                                </div>
-                                <div class="course_bottom">
-                                    <p class="price">$ 35.73</p>
-                                    <a href="#"><i class="fas fa-angle-right    "></i></a>
-                                </div>
-                            </div>
-                            <div class="single_course tab-pane fade show active" role="tabpanel">
-                                <div class="course_img">
-                                    <img src="<?php echo get_template_directory_uri();
-                                    ?>/assets/img/course.png" alt="">
-                                </div>
-                                <div class="course_text">
-                                    <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
-                                    <ul class="course_cat">
-                                        <li><a href="#">Group</a></li>
-                                        <li><a href="#">Available</a></li>
-                                    </ul>
-                                </div>
-                                <div class="course_bottom">
-                                    <p class="price">$ 35.73</p>
-                                    <a href="#"><i class="fas fa-angle-right    "></i></a>
-                                </div>
-                            </div>
-                            <div class="single_course tab-pane fade show active" role="tabpanel">
-                                <div class="course_img">
-                                    <img src="<?php echo get_template_directory_uri();
-                                    ?>/assets/img/course.png" alt="">
-                                </div>
-                                <div class="course_text">
-                                    <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
-                                    <ul class="course_cat">
-                                        <li><a href="#">Group</a></li>
-                                        <li><a href="#">Available</a></li>
-                                    </ul>
-                                </div>
-                                <div class="course_bottom">
-                                    <p class="price">$ 35.73</p>
-                                    <a href="#"><i class="fas fa-angle-right    "></i></a>
-                                </div>
-                            </div>
-                            <div class="single_course tab-pane fade show active" role="tabpanel">
-                                <div class="course_img">
-                                    <img src="<?php echo get_template_directory_uri();
-                                    ?>/assets/img/course.png" alt="">
-                                </div>
-                                <div class="course_text">
-                                    <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
-                                    <ul class="course_cat">
-                                        <li><a href="#">Group</a></li>
-                                        <li><a href="#">Available</a></li>
-                                    </ul>
-                                </div>
-                                <div class="course_bottom">
-                                    <p class="price">$ 35.73</p>
-                                    <a href="#"><i class="fas fa-angle-right    "></i></a>
+                    <?php
+                    if (!empty($categories)) {
+                        foreach ($categories as $val) {
+                            $category_name = strtolower( trim( $val['name'], ' ' ) );
+                            ?>
+                            <div class="tab-pane fade show active" id="<?php echo $category_name; ?>" role="tabpanel" aria-labelledby="home-tab">
+                                <div class="slick-area">
+                                    <?php
+                            global $post;
+                            global $woocommerce;
+                            global $product;
+
+                            $query = array(
+                                'post_type' => 'product',
+                                'posts_per_page' => 4,
+                                'orderby' => 'rand', 
+                            );
+                            $loop_content = new WP_Query( $query );
+
+                            /*echo '<pre>';
+                            print_r($loop_content);
+                            echo '</pre>';*/
+
+
+                            $counter = 0;
+                            while ( $loop_content->have_posts() ) : $loop_content->the_post();
+                                $counter++;
+                                    ?>
+                                    <div class="single_course tab-pane fade <?php echo ( $counter == 1 ) ? 'show active' : '';?>" role="tabpanel" data-cat="">
+                                        <div class="course_img">
+                                            <img src="assets/img/course.png" alt="">
+                                        </div>
+                                        <div class="course_text">
+                                            <h3><?php the_title(); ?></h3>
+                                            <ul class="course_cat">
+                                                <li><a href="#">Group</a></li>
+                                                <li><a href="#">Available</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="course_bottom">
+                                            <p class="price">$ 35.73</p>
+                                            <a href="#"><i class="fas fa-angle-right    "></i></a>
+                                        </div>
+                                    </div>
+
+                                    <?php
+                            endwhile;
+                                    wp_reset_query();
+                                ?>
+
                                 </div>
                             </div>
-                            <div class="single_course tab-pane fade show active" role="tabpanel">
-                                <div class="course_img">
-                                    <img src="<?php echo get_template_directory_uri();
-                                    ?>/assets/img/course.png" alt="">
-                                </div>
-                                <div class="course_text">
-                                    <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
-                                    <ul class="course_cat">
-                                        <li><a href="#">Group</a></li>
-                                        <li><a href="#">Available</a></li>
-                                    </ul>
-                                </div>
-                                <div class="course_bottom">
-                                    <p class="price">$ 35.73</p>
-                                    <a href="#"><i class="fas fa-angle-right    "></i></a>
-                                </div>
-                            </div>
-                            <div class="single_course tab-pane fade show active" role="tabpanel">
-                                <div class="course_img">
-                                    <img src="<?php echo get_template_directory_uri();
-                                    ?>/assets/img/course.png" alt="">
-                                </div>
-                                <div class="course_text">
-                                    <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
-                                    <ul class="course_cat">
-                                        <li><a href="#">Group</a></li>
-                                        <li><a href="#">Available</a></li>
-                                    </ul>
-                                </div>
-                                <div class="course_bottom">
-                                    <p class="price">$ 35.73</p>
-                                    <a href="#"><i class="fas fa-angle-right    "></i></a>
-                                </div>
-                            </div>
-                            <div class="single_course tab-pane fade show active" role="tabpanel">
-                                <div class="course_img">
-                                    <img src="<?php echo get_template_directory_uri();
-                                    ?>/assets/img/course.png" alt="">
-                                </div>
-                                <div class="course_text">
-                                    <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
-                                    <ul class="course_cat">
-                                        <li><a href="#">Group</a></li>
-                                        <li><a href="#">Available</a></li>
-                                    </ul>
-                                </div>
-                                <div class="course_bottom">
-                                    <p class="price">$ 35.73</p>
-                                    <a href="#"><i class="fas fa-angle-right    "></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                       <?php }
+                    }
+
+                    ?>
+
+
+
+
+
+                    <!--<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="single_course tab-pane fade show active" role="tabpanel">
                                     <div class="course_img">
-                                        <img src="<?php echo get_template_directory_uri();
-                                        ?>/assets/img/course.png" alt="">
+                                        <img src="assets/img/course.png" alt="">
                                     </div>
                                     <div class="course_text">
                                         <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
@@ -182,8 +201,7 @@ get_header();
                             <div class="col-lg-3">
                                 <div class="single_course tab-pane fade show active" role="tabpanel">
                                     <div class="course_img">
-                                        <img src="<?php echo get_template_directory_uri();
-                                        ?>/assets/img/course.png" alt="">
+                                        <img src="assets/img/course.png" alt="">
                                     </div>
                                     <div class="course_text">
                                         <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
@@ -201,8 +219,7 @@ get_header();
                             <div class="col-lg-3">
                                 <div class="single_course tab-pane fade show active" role="tabpanel">
                                     <div class="course_img">
-                                        <img src="<?php echo get_template_directory_uri();
-                                        ?>/assets/img/course.png" alt="">
+                                        <img src="assets/img/course.png" alt="">
                                     </div>
                                     <div class="course_text">
                                         <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
@@ -220,8 +237,7 @@ get_header();
                             <div class="col-lg-3">
                                 <div class="single_course tab-pane fade show active" role="tabpanel">
                                     <div class="course_img">
-                                        <img src="<?php echo get_template_directory_uri();
-                                        ?>/assets/img/course.png" alt="">
+                                        <img src="assets/img/course.png" alt="">
                                     </div>
                                     <div class="course_text">
                                         <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
@@ -243,8 +259,7 @@ get_header();
                             <div class="col-lg-3">
                                 <div class="single_course tab-pane fade show active" role="tabpanel">
                                     <div class="course_img">
-                                        <img src="<?php echo get_template_directory_uri();
-                                        ?>/assets/img/course.png" alt="">
+                                        <img src="assets/img/course.png" alt="">
                                     </div>
                                     <div class="course_text">
                                         <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
@@ -262,8 +277,7 @@ get_header();
                             <div class="col-lg-3">
                                 <div class="single_course tab-pane fade show active" role="tabpanel">
                                     <div class="course_img">
-                                        <img src="<?php echo get_template_directory_uri();
-                                        ?>/assets/img/course.png" alt="">
+                                        <img src="assets/img/course.png" alt="">
                                     </div>
                                     <div class="course_text">
                                         <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
@@ -281,8 +295,7 @@ get_header();
                             <div class="col-lg-3">
                                 <div class="single_course tab-pane fade show active" role="tabpanel">
                                     <div class="course_img">
-                                        <img src="<?php echo get_template_directory_uri();
-                                        ?>/assets/img/course.png" alt="">
+                                        <img src="assets/img/course.png" alt="">
                                     </div>
                                     <div class="course_text">
                                         <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
@@ -300,8 +313,7 @@ get_header();
                             <div class="col-lg-3">
                                 <div class="single_course tab-pane fade show active" role="tabpanel">
                                     <div class="course_img">
-                                        <img src="<?php echo get_template_directory_uri();
-                                        ?>/assets/img/course.png" alt="">
+                                        <img src="assets/img/course.png" alt="">
                                     </div>
                                     <div class="course_text">
                                         <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
@@ -323,8 +335,7 @@ get_header();
                             <div class="col-lg-3">
                                 <div class="single_course tab-pane fade show active" role="tabpanel">
                                     <div class="course_img">
-                                        <img src="<?php echo get_template_directory_uri();
-                                        ?>/assets/img/course.png" alt="">
+                                        <img src="assets/img/course.png" alt="">
                                     </div>
                                     <div class="course_text">
                                         <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
@@ -342,8 +353,7 @@ get_header();
                             <div class="col-lg-3">
                                 <div class="single_course tab-pane fade show active" role="tabpanel">
                                     <div class="course_img">
-                                        <img src="<?php echo get_template_directory_uri();
-                                        ?>/assets/img/course.png" alt="">
+                                        <img src="assets/img/course.png" alt="">
                                     </div>
                                     <div class="course_text">
                                         <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
@@ -361,8 +371,7 @@ get_header();
                             <div class="col-lg-3">
                                 <div class="single_course tab-pane fade show active" role="tabpanel">
                                     <div class="course_img">
-                                        <img src="<?php echo get_template_directory_uri();
-                                        ?>/assets/img/course.png" alt="">
+                                        <img src="assets/img/course.png" alt="">
                                     </div>
                                     <div class="course_text">
                                         <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
@@ -380,8 +389,7 @@ get_header();
                             <div class="col-lg-3">
                                 <div class="single_course tab-pane fade show active" role="tabpanel">
                                     <div class="course_img">
-                                        <img src="<?php echo get_template_directory_uri();
-                                        ?>/assets/img/course.png" alt="">
+                                        <img src="assets/img/course.png" alt="">
                                     </div>
                                     <div class="course_text">
                                         <h3>Course Title Goes Here with Shorter texts & with Longer Texts</h3>
@@ -397,7 +405,8 @@ get_header();
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
+
                 </div>
             </div>
 
@@ -415,34 +424,58 @@ get_header();
 
             <div class="choose_tab full">
                 <ul class="nav">
-                    <li>
-                        <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#pills-home">
-                            <i class="fas fa-gear    "></i>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting.</p>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-profile">
-                            <i class="fas fa-gear    "></i>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting.</p>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-link"  data-bs-toggle="pill" data-bs-target="#pills-contact">
-                            <i class="fas fa-gear    "></i>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting.</p>
-                        </button>
-                    </li>
+                    <?php
+                    $tab1 = get_theme_mod('tab_1_title');
+
+                    if( !empty($tab1)): ?>
+                        <li>
+                            <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#pills-home">
+                                <i class="fas fa-gear    "></i>
+                                <p><?php echo $tab1; ?></p>
+                            </button>
+                        </li>
+                    <?php
+                    endif;
+                    $tab2 = get_theme_mod('tab_2_title');
+                    if( !empty($tab2)):
+                        ?>
+                        <li>
+                            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-profile">
+                                <i class="fas fa-gear    "></i>
+                                <p><?php echo $tab2; ?></p>
+                            </button>
+                        </li>
+                    <?php
+                    endif;
+                    $tab3 = get_theme_mod('tab_3_title');
+                    if( !empty($tab3)):
+
+                        ?>
+                        <li>
+                            <button class="nav-link"  data-bs-toggle="pill" data-bs-target="#pills-contact">
+                                <i class="fas fa-gear    "></i>
+                                <p><?php echo $tab2; ?></p>
+                            </button>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
 
             <div class="tab-content">
-                <div class="tab-pane fade show active" id="pills-home" >
-                    <h3>Why You Should Chooss</h3>
-                    <h2>XPLRME</h2>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-                </div>
+                <?php
+                $tab1_desc              = get_theme_mod('tab_1_desc');
+                $tab1_desc_title        = get_theme_mod('tab_1_desc_title');
+                $tab1_desc_sub_title    = get_theme_mod('tab_1_desc_sub_title');
+
+                if( !empty($tab1)): ?>
+                    <div class="tab-pane fade show active" id="pills-home" >
+                        <h3><?php echo $tab1_desc_title; ?></h3>
+                        <h2><?php echo $tab1_desc_sub_title; ?></h2>
+                        <p><?php echo $tab1_desc; ?></p>
+                    </div>
+
+                <?php endif;?>
+
                 <div class="tab-pane fade" id="pills-profile">
                     <h3>Why You Should Chooss</h3>
                     <h2>XPLRME</h2>
@@ -459,24 +492,40 @@ get_header();
 
             <div class="choose_tab tab_mobile">
                 <ul class="nav">
-                    <li>
-                        <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#pills-home">
-                            <i class="fas fa-gear    "></i>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting.</p>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-profile">
-                            <i class="fas fa-gear    "></i>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting.</p>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-link"  data-bs-toggle="pill" data-bs-target="#pills-contact">
-                            <i class="fas fa-gear    "></i>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting.</p>
-                        </button>
-                    </li>
+                    <?php
+                    $tab1 = get_theme_mod('tab_1_title');
+
+                    if( !empty($tab1)): ?>
+                        <li>
+                            <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#pills-home">
+                                <i class="fas fa-gear    "></i>
+                                <p><?php echo $tab1; ?></p>
+                            </button>
+                        </li>
+                    <?php
+                    endif;
+                    $tab2 = get_theme_mod('tab_2_title');
+                    if( !empty($tab2)):
+                        ?>
+                        <li>
+                            <button class="nav-link" data-bs-toggle="pill" data-bs-target="#pills-profile">
+                                <i class="fas fa-gear    "></i>
+                                <p><?php echo $tab2; ?></p>
+                            </button>
+                        </li>
+                    <?php
+                    endif;
+                    $tab3 = get_theme_mod('tab_3_title');
+                    if( !empty($tab3)):
+
+                        ?>
+                        <li>
+                            <button class="nav-link"  data-bs-toggle="pill" data-bs-target="#pills-contact">
+                                <i class="fas fa-gear    "></i>
+                                <p><?php echo $tab2; ?></p>
+                            </button>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
@@ -499,7 +548,7 @@ get_header();
                     <div class="carousel_area autoplay">
                         <?php
 
-                            $args = array(
+                        $args = array(
                             'post_type' => 'review',
                             'post_status' => 'publish',
                             'posts_per_page' => -1,
@@ -507,42 +556,42 @@ get_header();
 
                         $loop = new WP_Query( $args );
 
-                    while ( $loop->have_posts() ) : $loop->the_post();
-                    global $post;
+                        while ( $loop->have_posts() ) : $loop->the_post();
+                            global $post;
 
-                    ?>
-                        <div class="singe-item">
-                            <div class="single_review text-center">
-                                <?php
+                            ?>
+                            <div class="singe-item">
+                                <div class="single_review text-center">
+                                    <?php
                                     $id = get_the_ID();
                                     $banner_img = get_post_meta($id, 'post_banner_img', true);
                                     $banner_img = explode(',', $banner_img);
                                     if(!empty($banner_img)) {
                                         ?>
-                                    <?php  foreach ($banner_img as $attachment_id) { ?>
+                                        <?php  foreach ($banner_img as $attachment_id) { ?>
                                             <img src="<?php echo wp_get_attachment_url( $attachment_id );?>">
+                                        <?php } ?>
                                     <?php } ?>
-                                <?php } ?>
-                            </div>
-                            <div class="carousel-text">
-                                <?php the_content(); ?>
-                                <div class="author text-center">
-                                    <?php if ( has_post_thumbnail() ) : ?>
-                                        <a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
-                                            <?php the_post_thumbnail(); ?>
-                                        </a>
-                                    <?php endif; ?>
+                                </div>
+                                <div class="carousel-text">
+                                    <?php the_content(); ?>
+                                    <div class="author text-center">
+                                        <?php if ( has_post_thumbnail() ) : ?>
+                                            <a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
+                                                <?php the_post_thumbnail(); ?>
+                                            </a>
+                                        <?php endif; ?>
 
-                                    <h4><?php the_title(); ?></h4>
-                                    <h6><?php
-                                        $categories = get_the_terms( $post->ID, 'country' );
-                                        foreach( $categories as $category ) {
-                                            echo  $category->name;
-                                        } ?></h6>
+                                        <h4><?php the_title(); ?></h4>
+                                        <h6><?php
+                                            $categories = get_the_terms( $post->ID, 'country' );
+                                            foreach( $categories as $category ) {
+                                                echo  $category->name;
+                                            } ?></h6>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    <?php
+                        <?php
                         endwhile;
                         wp_reset_postdata();
                         ?>

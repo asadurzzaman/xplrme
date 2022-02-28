@@ -124,7 +124,6 @@ function wpc_customizer_settings($wp_customize){
 
     $wp_customize->add_setting( 'cd_banner_img' , array(
         'transport'   => 'refresh',
-        'sanitize_callback' => 'esc_url_raw'
     ) );
 
     $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'sample_default_media',
@@ -198,7 +197,6 @@ function wpc_customizer_settings($wp_customize){
 
     $wp_customize->add_setting( 'join_us_img' , array(
         'transport'   => 'refresh',
-        'sanitize_callback' => 'esc_url_raw'
     ) );
 
     $wp_customize->add_control(
@@ -222,6 +220,86 @@ function wpc_customizer_settings($wp_customize){
                 'frame_button' => esc_html__( 'Choose File' ),
             )
         )
+    ) );
+
+    $wp_customize->add_setting( 'tab_1_title' , array(
+        'transport'   => 'refresh',
+    ) );
+    $wp_customize->add_control( 'review_title', array(
+        'label' => 'Tab One Title',
+        'section' => 'cd_button',
+        'settings' => 'tab_1_title',
+        'type' => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'tab_1_desc_title' , array(
+        'transport'   => 'refresh',
+    ) );
+    $wp_customize->add_control( 'review_box_title1', array(
+        'label' => 'Tab One Desc Box Title',
+        'section' => 'cd_button',
+        'settings' => 'tab_1_desc_title',
+        'type' => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'tab_1_desc_sub_title' , array(
+        'transport'   => 'refresh',
+    ) );
+    $wp_customize->add_control( 'review_box_sub_title1', array(
+        'label' => 'Tab One Desc Box Sub Title',
+        'section' => 'cd_button',
+        'settings' => 'tab_1_desc_sub_title',
+        'type' => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'tab_1_desc' , array(
+        'transport'   => 'refresh',
+    ) );
+    $wp_customize->add_control( 'tab_one_desc', array(
+        'label' => 'Tab One Desc',
+        'section' => 'cd_button',
+        'settings' => 'tab_1_desc',
+        'type' => 'textarea',
+    ) );
+
+    $wp_customize->add_setting( 'tab_2_title' , array(
+        'transport'   => 'refresh',
+    ) );
+    $wp_customize->add_control( 'review_title2', array(
+        'label' => 'Tab Two Title',
+        'section' => 'cd_button',
+        'settings' => 'tab_2_title',
+        'type' => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'tab_2_desc' , array(
+        'transport'   => 'refresh',
+    ) );
+    $wp_customize->add_control( 'tab_one_desc2', array(
+        'label' => 'Tab Two Desc',
+        'section' => 'cd_button',
+        'settings' => 'tab_2_desc',
+        'type' => 'textarea',
+    ) );
+
+    $wp_customize->add_setting( 'tab_3_title' , array(
+        'transport'   => 'refresh',
+    ) );
+    $wp_customize->add_control( 'review_title3', array(
+        'label' => 'Tab Three Title',
+        'section' => 'cd_button',
+        'settings' => 'tab_3_title',
+        'type' => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'tab_3_desc' , array(
+        'transport'   => 'refresh',
+    ) );
+    $wp_customize->add_control( 'tab_one_desc3', array(
+        'label' => 'Tab Three Desc',
+        'section' => 'cd_button',
+        'settings' => 'tab_3_desc',
+        'type' => 'textarea',
     ) );
 }
 
