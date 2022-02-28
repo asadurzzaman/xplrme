@@ -19,13 +19,6 @@
 
 	<?php wp_head(); ?>
 </head>
-<?php
-
-
-
-
-
-?>
 <style>
     <?php
     $bannerid = get_theme_mod( 'cd_banner_img' );

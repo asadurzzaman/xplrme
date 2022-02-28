@@ -70,22 +70,21 @@ $categories = woofusion_get_categories();
                         $count = 1;
                         foreach ($categories as $val) {
                             $category_name = strtolower( trim( $val['name'], ' ' ) );
+
                             ?>
                             <div class="tab-pane fade <?php echo ( $count == 1 ) ? 'show active' : '';?>" id="<?php echo $category_name; ?>" role="tabpanel" aria-labelledby="home-tab">
                                 <div class="slick-area">
                                     <?php
-                            global $post;
-                            global $woocommerce;
-                            global $product;
+                                        global $product;
 
-                            $query = array(
-                                'post_type' => 'product',
-                                'posts_per_page' => -1,
-                                'orderby' => 'rand',
-                            );
-                            $loop_content = new WP_Query( $query );
+                                        $query = array(
+                                            'post_type' => 'product',
+                                            'posts_per_page' => -1,
+                                            'orderby' => 'rand',
+                                        );
+                                        $loop_content = new WP_Query( $query );
 
-                            while ( $loop_content->have_posts() ) : $loop_content->the_post();
+                                        while ( $loop_content->have_posts() ) : $loop_content->the_post();
 
                                     ?>
 
@@ -100,6 +99,7 @@ $categories = woofusion_get_categories();
 
                                                 <li><a href="#">Group</a></li>
                                                 <li><a href="#">Available</a></li>
+
                                             </ul>
                                         </div>
                                         <div class="course_bottom">
