@@ -43,7 +43,7 @@ $categories = woofusion_get_categories();
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section_title text-start">
-                        <h2><?php echo get_theme_mod( 'courses_title_cb' ,'Browse Courses by Sections') ;  ?></h2>
+                        <h2><?php echo sanitize_text_field( get_theme_mod( 'courses_title_cb' ,'Browse Courses by Sections') ) ;  ?></h2>
                     </div>
                     <div class="tab_filter">
                         <ul class="nav">
@@ -54,7 +54,7 @@ $categories = woofusion_get_categories();
                                             $category_slug = strtolower( trim( $row['name'], ' ' ) );
                                         ?>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link <?php echo ( $i == 1 ) ? 'active' : '';?>" id="" data-bs-toggle="tab" data-bs-target="#<?php echo $category_slug; ?>" ><?php echo $row['name']; ?></button>
+                                            <button class="nav-link <?php echo ( $i == 1 ) ? 'active' : '';?>" id="" data-bs-toggle="tab" data-bs-target="#<?php echo sanitize_text_field( $category_slug ); ?>" ><?php echo sanitize_text_field( $row['name'] ) ; ?></button>
                                         </li>
                                     <?php $i++;}
                                 }
@@ -71,7 +71,7 @@ $categories = woofusion_get_categories();
                             $category_name = strtolower( trim( $val['name'], ' ' ) );
 
                             ?>
-                            <div class="tab-pane fade <?php echo ( $count == 1 ) ? 'show active' : '';?>" id="<?php echo $category_name; ?>" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="tab-pane fade <?php echo ( $count == 1 ) ? 'show active' : '';?>" id="<?php echo sanitize_text_field( $category_name ); ?>" role="tabpanel" aria-labelledby="home-tab">
                                 <div class="slick-area">
                                     <?php
                                         global $product;
@@ -83,9 +83,9 @@ $categories = woofusion_get_categories();
                                             'tax_query'             => array(
                                                 array(
                                                     'taxonomy'      => 'product_cat',
-                                                    'field' => 'term_id', //This is optional, as it defaults to 'term_id'
+                                                    'field' => 'term_id',
                                                     'terms'         => $val['term_id'],
-                                                    'operator'      => 'IN' // Possible values are 'IN', 'NOT IN', 'AND'.
+                                                    'operator'      => 'IN'
                                                 )
                                             ),
                                         );
@@ -110,8 +110,8 @@ $categories = woofusion_get_categories();
                                             </ul>
                                         </div>
                                         <div class="course_bottom">
-                                            <p class="price"><?php echo $product->get_price_html(); ?></p>
-                                            <a href="<?php the_permalink(); ?>"><i class="fas fa-angle-right    "></i></a>
+                                            <p class="price"><?php echo sanitize_text_field( $product->get_price_html() ) ; ?></p>
+                                            <a href="<?php echo wc_sanitize_permalink( the_permalink() ); ?>"><i class="fas fa-angle-right    "></i></a>
                                         </div>
                                     </div>
 
