@@ -80,6 +80,14 @@ $categories = woofusion_get_categories();
                                             'post_type' => 'product',
                                             'posts_per_page' => -1,
                                             'orderby' => 'rand',
+                                            'tax_query'             => array(
+                                                array(
+                                                    'taxonomy'      => 'product_cat',
+                                                    'field' => 'term_id', //This is optional, as it defaults to 'term_id'
+                                                    'terms'         => $val['term_id'],
+                                                    'operator'      => 'IN' // Possible values are 'IN', 'NOT IN', 'AND'.
+                                                )
+                                            ),
                                         );
                                         $loop_content = new WP_Query( $query );
 
