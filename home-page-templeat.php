@@ -10,32 +10,34 @@
 
 get_header();
 
+if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ){
+    if(!function_exists('woofusion_get_categories')){
+        function woofusion_get_categories($category_type = 'product_cat'){
+            $categories = array();
+            // get categories
+            $query_args = [
+                'taxonomy'      => $category_type,
+                /*'orderby'       => 'name',
+                'order'         => 'DESC',
+                'hide_empty'    => false,
+                'number'        => 1500*/
+            ];
 
-if(!function_exists('woofusion_get_categories')){
-    function woofusion_get_categories($category_type = 'product_cat'){
-        $categories = array();
-        // get categories
-        $query_args = [
-            'taxonomy'      => $category_type,
-            /*'orderby'       => 'name',
-            'order'         => 'DESC',
-            'hide_empty'    => false,
-            'number'        => 1500*/
-        ];
+            $terms = get_terms( $query_args );
+            $count = count( (array) $terms);
 
-        $terms = get_terms( $query_args );
-        $count = count( (array) $terms);
+            if($count > 0):
+                foreach ($terms as $term) {
+                    $categories[] = array('name' => $term->name, 'term_id' => $term->term_id);
+                }
+            endif;
 
-        if($count > 0):
-            foreach ($terms as $term) {
-                $categories[] = array('name' => $term->name, 'term_id' => $term->term_id);
-            }
-        endif;
-
-        return $categories;
+            return $categories;
+        }
     }
-}
-$categories = woofusion_get_categories();
+    $categories = woofusion_get_categories();
+
+
 ?>
 
     <section class="course_section">
@@ -75,7 +77,6 @@ $categories = woofusion_get_categories();
                                 <div class="slick-area">
                                     <?php
                                         global $product;
-
                                         $query = array(
                                             'post_type' => 'product',
                                             'posts_per_page' => -1,
@@ -137,6 +138,7 @@ $categories = woofusion_get_categories();
             </div>
         </div>
     </section>
+    <?php } ?>
     <section class="below_course_section">
         <div class="tab_desc">
 
