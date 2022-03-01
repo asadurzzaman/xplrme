@@ -253,7 +253,7 @@ $categories = woofusion_get_categories();
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section_header text-center">
-                        <h2><?php echo get_theme_mod( 'review_title_cb' ,'What Our Explorers Think') ;  ?></h2>
+                        <h2><?php echo get_theme_mod( 'review_title_cb_banner' ,'What Our Explorers Think') ;  ?></h2>
                     </div>
                 </div>
             </div>

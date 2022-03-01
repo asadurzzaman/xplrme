@@ -94,8 +94,8 @@
     color: var(--dev-button-color);
 }
 .hero_section:after { 
-    position: inherit; 
-    display: none;
+    position: inherit !important;
+    display: none !important;
 }
 .banner_text h1{
     color: var(--dev-bg);
@@ -111,7 +111,8 @@
 }
 .tab_filter ul li button {
     padding: 10px 14px; 
-    margin-right: 5px; 
+    margin-right: 5px;
+    margin-bottom: 15px;
 }
 .section_title h2 { 
     font-size: 30px; 
@@ -198,7 +199,7 @@ section.join_us_section {
     box-sizing: border-box;
     box-shadow: inherit;
     border-radius: 20px;
-    padding: 100px 71px;
+    padding: 0px !important;
     left: 0px;
     position: relative;
     text-align: left;

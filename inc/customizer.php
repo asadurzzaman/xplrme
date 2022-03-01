@@ -185,13 +185,13 @@ function wpc_customizer_settings($wp_customize){
         'type' => 'text',
     ) );
 
-    $wp_customize->add_setting( 'review_title_cb' , array(
+    $wp_customize->add_setting( 'review_title_cb_banner' , array(
         'transport'   => 'refresh',
     ) );
-    $wp_customize->add_control( 'review_title', array(
+    $wp_customize->add_control( 'review_title_banner', array(
         'label' => 'Review Section Title',
         'section' => 'cd_button',
-        'settings' => 'review_title_cb',
+        'settings' => 'review_title_cb_banner',
         'type' => 'text',
     ) );
 

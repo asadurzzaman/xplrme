@@ -28,6 +28,7 @@
     $joinurl = wp_get_attachment_url( $joinid );
 
      ?>
+
     .hero_section{
         position: relative;
     }
@@ -42,6 +43,42 @@
         display: inline-block;
         background-size: cover;
         z-index: -1;
+    }
+    section.below_course_section{
+        position: relative;
+    }
+    section.below_course_section:after {
+        position: absolute;
+        content: "";
+        top: -15%;
+        right: 10%;
+        width: 140px;
+        height: 35px;
+        background: url(<?php echo get_template_directory_uri(); ?>/assets/img/dots.png) no-repeat center center;
+        background-size: auto;
+    }
+    .choose_tab .nav::before {
+        position: absolute;
+        content: "";
+        top: auto;
+        bottom: -17px;
+        left: -4%;
+        width: 140px;
+        height: 35px;
+        background: url(<?php echo get_template_directory_uri(); ?>/assets/img/dots.png) no-repeat center center;
+        background-size: auto;
+        z-index: -1;
+    }
+    section.join_us_section::before{
+        position: absolute;
+        content: "";
+        top: -10%;
+        bottom: auto;
+        left: 20%;
+        width: 140px;
+        height: 35px;
+        background: url(<?php echo get_template_directory_uri(); ?>/assets/img/dots.png) no-repeat center center;
+        background-size: auto;
     }
     <?php
 
